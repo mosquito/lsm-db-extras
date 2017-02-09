@@ -6,7 +6,7 @@ setup(
     version='0.1',
     author='Dmitry Orlov',
     author_email='me@mosquito.su',
-    description='Thread/Process safe shelves and other lam-db helpers',
+    description='Thread/Process safe shelves and other lsm-db helpers',
     long_description=open("README.rst"),
     license="Apache 2",
     packages=find_packages(".", exclude=['tests', 'doc']),
