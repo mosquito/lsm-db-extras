@@ -40,10 +40,17 @@ Usage example
 .. code-block:: python
 
 
-    from lsm_extras import Shelf
+    from lsm_extras import Shelf, LSMDict
 
     with Shelf("/tmp/test.ldb") as shelf:
         shelf["foo"] = True
 
     with Shelf("/tmp/test.ldb") as shelf:
         print(shelf["foo"])
+
+
+    with LSMDict("/tmp/test-dict.ldb") as storage:
+        storage[1] = True
+
+    with LSMDict("/tmp/test-dict.ldb") as storage:
+        print(storage[1])

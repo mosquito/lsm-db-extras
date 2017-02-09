@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name='lsm-db-extras',
     version='0.1',
+    url="https://github.com/mosquito/lsm-db-extras",
     author='Dmitry Orlov',
     author_email='me@mosquito.su',
     description='Thread/Process safe shelves and other lsm-db helpers',
