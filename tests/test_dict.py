@@ -8,15 +8,15 @@ from tempfile import NamedTemporaryFile
 
 
 def insert_range(items, filename):
-    with LSMDict(filename) as shelf:
+    with LSMDict(filename) as storage:
         for i in items:
-            shelf[i] = i
+            storage[i] = i
 
 
 def remove_range(items, filename):
-    with LSMDict(filename) as shelf:
+    with LSMDict(filename) as storage:
         for key in items:
-            del shelf[key]
+            del storage[key]
 
 
 def split_seq(iterable, size):
@@ -35,60 +35,65 @@ def get_dict():
 
 
 def test_simple(get_dict):
-    shelf = get_dict()
-    shelf['foo'] = True
-    shelf.sync()
-    assert shelf['foo']
-    assert 'foo' in shelf
-    assert shelf.get('foo')
-    assert shelf.get('bar') is None
+    storage = get_dict()
+    storage['foo'] = True
+    storage.sync()
+    assert storage['foo']
+    assert 'foo' in storage
+    assert storage.get('foo')
+    assert storage.get('bar') is None
+
+    storage.update({"boo": "1", "foo": 2})
+
+    assert storage['boo'] == '1'
+    assert storage['foo'] == 2
 
     with pytest.raises(KeyError):
-        shelf['bar']
+        storage['bar']
 
-    shelf.close()
+    storage.close()
 
-    assert shelf.closed
+    assert storage.closed
 
     with pytest.raises(RuntimeError):
-        shelf['foo']
+        storage['foo']
 
-    assert shelf.filename in repr(shelf)
+    assert storage.filename in repr(storage)
 
 
 def test_len(get_dict):
-    shelf = get_dict()
+    storage = get_dict()
     for i in range(1000):
-        shelf['foo %d' % i] = True
+        storage['foo %d' % i] = True
 
-    assert len(shelf) == 1000
+    assert len(storage) == 1000
 
 
 def test_iter(get_dict):
-    shelf = get_dict()
+    storage = get_dict()
     for i in range(1000):
-        shelf['%d' % i] = True
+        storage['%d' % i] = True
 
-    sorted(iter(shelf)) == list(map(str, range(1000)))
+    sorted(iter(storage)) == list(map(str, range(1000)))
 
 
 def test_reopen(get_dict):
-    shelf1 = get_dict()
+    storage1 = get_dict()
 
     for i in range(1000):
-        shelf1['%d' % i] = True
+        storage1['%d' % i] = True
 
-    shelf1.close()
+    storage1.close()
 
-    shelf2 = get_dict()
-    sorted(iter(shelf2)) == list(map(str, range(1000)))
+    storage2 = get_dict()
+    sorted(iter(storage2)) == list(map(str, range(1000)))
 
 
 def test_concurrent_threads(get_dict):
     pool = ThreadPool(16)
 
-    with get_dict() as shelf:
-        filename = shelf.filename
+    with get_dict() as storage:
+        filename = storage.filename
 
     for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(1000), 100)):
         pass
@@ -102,8 +107,8 @@ def test_concurrent_threads(get_dict):
 def test_concurrent_processes(get_dict):
     pool = Pool(16)
 
-    with get_dict() as shelf:
-        filename = shelf.filename
+    with get_dict() as storage:
+        filename = storage.filename
 
     for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(10000), 1000)):
         pass
