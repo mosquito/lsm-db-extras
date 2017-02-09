@@ -31,4 +31,13 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
+    extras_require={
+        'develop': [
+            'coverage!=4.3',
+            'coveralls',
+            'pytest',
+            'pytest-cov',
+            'tox>=2.4',
+        ],
+    },
 )
