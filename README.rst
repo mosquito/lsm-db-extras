@@ -42,8 +42,8 @@ Usage example
 
     from lsm_extras import Shelf
 
-    with Shelf("/tmp/test/ldb") as shelf:
+    with Shelf("/tmp/test.ldb") as shelf:
         shelf["foo"] = True
 
-    with Shelf("/tmp/test/ldb") as shelf:
+    with Shelf("/tmp/test.ldb") as shelf:
         print(shelf["foo"])
