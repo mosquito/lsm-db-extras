@@ -7,7 +7,7 @@ setup(
     author='Dmitry Orlov',
     author_email='me@mosquito.su',
     description='Thread/Process safe shelves and other lsm-db helpers',
-    long_description=open("README.rst"),
+    long_description=open("README.rst").read(),
     license="Apache 2",
     packages=find_packages(".", exclude=['tests', 'doc']),
     install_requires=[
