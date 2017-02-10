@@ -3,7 +3,7 @@ from functools import partial
 import itertools
 import pytest
 from multiprocessing.pool import ThreadPool, Pool
-from lsm_extras.shelve import Shelf
+from lsm_extras.shelves import Shelf
 from tempfile import NamedTemporaryFile
 
 
