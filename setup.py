@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='lsm-db-extras',
-    version='0.3.0',
+    version='0.4.0',
     url="https://github.com/mosquito/lsm-db-extras",
     author='Dmitry Orlov',
     author_email='me@mosquito.su',
