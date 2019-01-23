@@ -5,9 +5,9 @@ lsm-db-extras
     :target: https://coveralls.io/github/mosquito/lsm-db-extras
     :alt: Coveralls
 
-.. image:: https://travis-ci.org/mosquito/lsm-db-extras.svg
-    :target: https://travis-ci.org/mosquito/lsm-db-extras
-    :alt: Travis CI
+.. image:: https://cloud.drone.io/api/badges/mosquito/lsm-db-extras/status.svg
+    :target: https://cloud.drone.io/mosquito/lsm-db-extras/
+    :alt: Drone CI
 
 .. image:: https://img.shields.io/pypi/v/lsm-db-extras.svg
     :target: https://pypi.python.org/pypi/lsm-db-extras/
