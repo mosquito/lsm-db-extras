@@ -132,3 +132,4 @@ class Base(MutableMapping):
     @abc.abstractmethod
     def _decode_value(self, value):
         raise NotImplementedError
+
