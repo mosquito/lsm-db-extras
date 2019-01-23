@@ -114,6 +114,9 @@ class Base(MutableMapping):
         with self.__lock:
             self._db.flush()
 
+    def transaction(self):
+        return self._db.transaction()
+
     def __repr__(self):
         return "<LSMShelf: %r>" % self.filename
 

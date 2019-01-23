@@ -10,7 +10,8 @@ class LSMShelf(Base):
     __slots__ = "__encoding", "__protocol"
 
     def __init__(self, filename, encoding="utf-8", protocol=3):
-        super().__init__(filename)
+        super(LSMShelf, self).__init__(filename)
+
         self.__encoding = encoding
         self.__protocol = protocol
 

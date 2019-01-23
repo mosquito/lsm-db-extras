@@ -26,5 +26,6 @@ class LSMDict(Base):
         :type data: dict
         """
         self._db.update({
-            self._encode_key(key): self._encode_value(value) for key, value in data.items()
+            self._encode_key(key): self._encode_value(value)
+            for key, value in data.items()
         })
