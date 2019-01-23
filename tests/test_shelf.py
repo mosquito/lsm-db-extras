@@ -1,10 +1,11 @@
-from functools import partial
-
 import itertools
-import pytest
+from functools import partial
 from multiprocessing.pool import ThreadPool, Pool
-from lsm_extras.shelves import Shelf
 from tempfile import NamedTemporaryFile
+
+import pytest
+
+from lsm_extras.shelves import Shelf
 
 
 def insert_range(items, filename):
@@ -90,10 +91,12 @@ def test_concurrent_threads(get_shelf):
     with get_shelf() as shelf:
         filename = shelf.filename
 
-    for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(1000), 100)):
+    for _ in pool.imap_unordered(partial(insert_range, filename=filename),
+                                 split_seq(range(1000), 100)):
         pass
 
-    for _ in pool.imap_unordered(partial(remove_range, filename=filename), split_seq(range(1000), 100)):
+    for _ in pool.imap_unordered(partial(remove_range, filename=filename),
+                                 split_seq(range(1000), 100)):
         pass
 
     assert sorted(iter(get_shelf())) == list()
@@ -105,10 +108,12 @@ def test_concurrent_processes(get_shelf):
     with get_shelf() as shelf:
         filename = shelf.filename
 
-    for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(10000), 1000)):
+    for _ in pool.imap_unordered(partial(insert_range, filename=filename),
+                                 split_seq(range(10000), 1000)):
         pass
 
-    for _ in pool.imap_unordered(partial(remove_range, filename=filename), split_seq(range(10000), 1000)):
+    for _ in pool.imap_unordered(partial(remove_range, filename=filename),
+                                 split_seq(range(10000), 1000)):
         pass
 
     assert sorted(iter(get_shelf())) == list()

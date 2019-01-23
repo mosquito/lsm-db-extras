@@ -1,9 +1,8 @@
 import abc
 import os.path
+from collections import MutableMapping
 from lsm import LSM
 from threading import RLock
-from collections import MutableMapping
-
 
 _LOCKS = {}
 
@@ -135,4 +134,3 @@ class Base(MutableMapping):
     @abc.abstractmethod
     def _decode_value(self, value):
         raise NotImplementedError
-

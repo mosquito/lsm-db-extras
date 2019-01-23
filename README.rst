@@ -40,10 +40,11 @@ Usage example
 .. code-block:: python
 
 
-    from lsm_extras import Shelf, LSMDict
+    from lsm_extras import Shelf, LSMDict, LSMTree
 
     with Shelf("/tmp/test.ldb") as shelf:
         shelf["foo"] = True
+
 
     with Shelf("/tmp/test.ldb") as shelf:
         print(shelf["foo"])
@@ -52,5 +53,15 @@ Usage example
     with LSMDict("/tmp/test-dict.ldb") as storage:
         storage[1] = True
 
+
     with LSMDict("/tmp/test-dict.ldb") as storage:
         print(storage[1])
+
+
+    with LSMTree("/tmp/test-tree.ldb") as storage:
+        with tree.transaction():
+            for i in range(10):
+                tree['numbers', i] = i * 2
+                tree['strings', i] = str(i)
+
+        print(list(tree.find('strings')))
