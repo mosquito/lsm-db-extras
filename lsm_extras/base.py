@@ -11,14 +11,14 @@ _LOCKS = {}
 class Base(MutableMapping):
     __slots__ = "__db", "__lock", "__closed", "__filename",
 
-    def __init__(self, filename):
+    def __init__(self, filename, **lsm_kwargs):
         self.__filename = os.path.abspath(filename)
 
         if self.__filename not in _LOCKS:
             _LOCKS[self.__filename] = RLock()
 
         self.__lock = _LOCKS[self.__filename]
-        self.__db = LSM(self.__filename)
+        self.__db = LSM(self.__filename, **lsm_kwargs)
         self.__closed = False
 
     @property

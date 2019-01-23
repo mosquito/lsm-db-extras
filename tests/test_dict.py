@@ -1,10 +1,11 @@
-from functools import partial
-
 import itertools
-import pytest
-from multiprocessing.pool import ThreadPool, Pool
-from lsm_extras.dict import LSMDict
+from functools import partial
+from multiprocessing.pool import Pool, ThreadPool
 from tempfile import NamedTemporaryFile
+
+import pytest
+
+from lsm_extras.dict import LSMDict
 
 
 def insert_range(items, filename):
@@ -95,10 +96,12 @@ def test_concurrent_threads(get_dict):
     with get_dict() as storage:
         filename = storage.filename
 
-    for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(1000), 100)):
+    for _ in pool.imap_unordered(partial(insert_range, filename=filename),
+                                 split_seq(range(1000), 100)):
         pass
 
-    for _ in pool.imap_unordered(partial(remove_range, filename=filename), split_seq(range(1000), 100)):
+    for _ in pool.imap_unordered(partial(remove_range, filename=filename),
+                                 split_seq(range(1000), 100)):
         pass
 
     assert sorted(iter(get_dict())) == list()
@@ -110,10 +113,20 @@ def test_concurrent_processes(get_dict):
     with get_dict() as storage:
         filename = storage.filename
 
-    for _ in pool.imap_unordered(partial(insert_range, filename=filename), split_seq(range(10000), 1000)):
+    for _ in pool.imap_unordered(partial(insert_range, filename=filename),
+                                 split_seq(range(10000), 1000)):
         pass
 
-    for _ in pool.imap_unordered(partial(remove_range, filename=filename), split_seq(range(10000), 1000)):
+    for _ in pool.imap_unordered(partial(remove_range, filename=filename),
+                                 split_seq(range(10000), 1000)):
         pass
 
     assert sorted(iter(get_dict())) == list()
+
+
+def insert_args(items, filename):
+    with LSMDict(
+            filename, mmap=0, autowork=0, automerge=4, autoflush=1024
+    ) as storage:
+        for i in items:
+            storage[i] = i
