@@ -78,5 +78,5 @@ class LSMTree(Base):
             value = self._decode_value(v)
             yield key, value
 
-    def remove_all(self, *prefix):
+    def remove_range(self, *prefix):
         self._db.delete_range(*self._encode_range(prefix))

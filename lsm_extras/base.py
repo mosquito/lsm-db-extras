@@ -134,3 +134,6 @@ class Base(MutableMapping):
     @abc.abstractmethod
     def _decode_value(self, value):
         raise NotImplementedError
+
+    def purge(self):
+        self._db.delete_range(b'\x00', b'\xff')

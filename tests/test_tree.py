@@ -36,5 +36,14 @@ def test_simple(get_tree):
     for prefix in prefixes:
         with tree.transaction():
             assert list(tree.find(*prefix))
-            tree.remove_all(*prefix)
+            tree.remove_range(*prefix)
             assert not list(tree.find(*prefix))
+
+    for i in range(count):
+        tree['purged', i] = i * 2
+
+    assert sorted(tree.items()) != []
+
+    tree.purge()
+
+    assert sorted(tree.items()) == []
